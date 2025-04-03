@@ -1,56 +1,32 @@
 package codes;
 
+import java.util.Arrays;
+
 public class LongestConsecutiveSequence {
     public static int longestConsecutive(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
 
-        int loop = 0;
-        for (int i : nums) {
-            if (i < 0) {
-                loop = 1;
-                break;
-            }
-        }
+        Arrays.sort(nums);
 
-        int numero = nums[0];
-        for (int i : nums) {
-            if (i == 1) {
-                numero = 1;
-            } else if (i == 0) {
-                numero = 0;
-                break;
-            }
-        }
-
-        int i = 0;
         int count = 1;
-        if (loop == 1) {
-            while (i < nums.length) {
-                if ((numero - 1) == nums[i]) {
-                    count++;
-                    numero = nums[i];
-                    i = 0;
-                }
-                i++;
-            }
-        } else {
-            while (i < nums.length) {
-                if ((numero + 1) == nums[i]) {
-                    count++;
-                    numero = nums[i];
-                    i = 0;
-                }
-                i++;
+        int longest = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1] + 1) {
+                count++;
+            } else if (nums[i] != nums[i - 1]) {
+                longest = Math.max(longest, count);
+                count = 1;
             }
         }
 
-        return count;
+        longest = Math.max(longest, count);
+        return longest;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,0,-1};
+        int[] nums = {9,1,4,7,3,-1,0,5,8,-1,6};
         System.out.println(longestConsecutive(nums));
     }
 }
